@@ -1,0 +1,36 @@
+:root {
+  --square-width: 100px;
+  --square-height: 100px;
+  --black: #523d3c;
+  --white: #c6a28c;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.board {
+  width: calc(var(--square-width) * 8);
+  height: calc(var(--square-height) * 8);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.square {
+  width: var(--square-width);
+  height: var(--square-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.black {
+  background-color: var(--black);
+}
+
+.white {
+  background-color: var(--white);
+}
