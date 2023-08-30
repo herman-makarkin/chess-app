@@ -26,6 +26,22 @@ class Board {
     }
   }
 
+  public hightlightSquares(selectedSquare: Square | null) {
+    for (let i = 0; i < this.squares.length; i++) {
+      const row = this.squares[i];
+      for (let j = 0; j < row.length; j++) {
+        const target = row[j];
+        target.available = !!selectedSquare?.figure?.canMove(target);
+      }
+    }
+  }
+
+  public getCopyBoard(): Board {
+    const newBoard = new Board();
+    newBoard.squares = this.squares;
+    return newBoard;
+  }
+
   public getSquare(x: number, y: number) {
     return this.squares[y][x];
   }

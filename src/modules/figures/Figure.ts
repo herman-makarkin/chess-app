@@ -27,7 +27,7 @@ export class Figure {
     this.id = Math.random();
   }
 
-  canMove(target: Square): boolean {
+  canMove(square: Square): boolean {
     return true;
   }
 

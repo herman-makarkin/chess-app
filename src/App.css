@@ -4,6 +4,7 @@
   --black: #523d3c;
   --white: #c6a28c;
   --piece-size: 70px;
+  --available-size: 12px;
 }
 
 .App {
@@ -39,4 +40,14 @@
 
 .white {
   background-color: var(--white);
+}
+
+.selected {
+  background-color: yellow;
+}
+
+.available {
+  width: var(--available-size);
+  height: var(--available-size);
+  background-color: green;
 }
