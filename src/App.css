@@ -3,6 +3,7 @@
   --square-height: 100px;
   --black: #523d3c;
   --white: #c6a28c;
+  --piece-size: 70px;
 }
 
 .App {
@@ -25,6 +26,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.square img {
+  width: var(--piece-size);
+  height: var(--piece-size);
 }
 
 .black {
