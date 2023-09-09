@@ -9,6 +9,7 @@ export enum FigureTypes {
   QUEEN = "queen",
   PAWN = "pawn",
   KING = "king",
+  FIGURE = "figure",
 }
 
 export class Figure {
@@ -23,11 +24,13 @@ export class Figure {
     this.square = square;
     this.square.figure = this;
     this.logo = null;
-    this.name = FigureTypes.PAWN;
+    this.name = FigureTypes.FIGURE;
     this.id = Math.random();
   }
 
   canMove(square: Square): boolean {
+    if (square.figure?.color === this.color) return false;
+    if (square.figure?.name === FigureTypes.KING) return false;
     return true;
   }
 
