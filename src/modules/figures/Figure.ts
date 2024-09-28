@@ -1,6 +1,7 @@
 import { Colors } from "../Colors";
 import { Square } from "../Square";
 import logo from "../../assets/king_w.png";
+import Board from "../Board";
 
 export enum FigureTypes {
   ROOK = "rook",
@@ -13,6 +14,7 @@ export enum FigureTypes {
 }
 
 export class Figure {
+  lastMoved: number;
   color: Colors;
   logo: typeof logo | null;
   square: Square;
@@ -20,6 +22,7 @@ export class Figure {
   id: number;
 
   constructor(color: Colors, square: Square) {
+    this.lastMoved = 0;
     this.color = color;
     this.square = square;
     this.square.figure = this;
@@ -34,5 +37,8 @@ export class Figure {
     return true;
   }
 
-  moveFigure(target: Square): void {}
+  moveFigure(target: Square): void {
+    this.lastMoved = this.square.board.moveCount;
+    this.square.board.moveCount++;
+  }
 }

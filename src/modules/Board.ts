@@ -11,6 +11,7 @@ import { Bishop } from "./figures/Bishop";
 class Board {
   squares: Square[][] = [];
   defaultFEN: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+  moveCount: number = 0;
 
   public initSquares() {
     for (let i = 0; i < 8; i++) {
@@ -44,6 +45,14 @@ class Board {
 
   public getSquare(x: number, y: number) {
     return this.squares[y][x];
+  }
+
+  public isXProper(x: number) {
+    return x < this.squares[0].length && x >= 0 ? true : false;
+  }
+
+  public isYProper(y: number) {
+    return y < this.squares.length && y >= 0 ? true : false;
   }
 
   //   public setBoard(fen: string) {
