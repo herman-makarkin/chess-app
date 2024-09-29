@@ -10,14 +10,17 @@ export class Queen extends Figure {
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
     this.name = FigureTypes.QUEEN;
   }
-  canMove(square: Square): boolean {
-    if (!super.canMove(square)) {
-      return false;
-    }
 
+  canAttack(square: Square): boolean {
     if (this.square.isEmptyVertical(square)) return true;
     if (this.square.isEmptyHorizontal(square)) return true;
     if (this.square.isEmptyDiagonal(square)) return true;
+    return false;
+  }
+
+  canMove(square: Square): boolean {
+    if (!super.canMove(square)) return false;
+    if (this.canAttack(square)) return true;
     return false;
   }
 }

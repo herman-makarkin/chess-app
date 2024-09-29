@@ -10,11 +10,16 @@ export class Knight extends Figure {
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
     this.name = FigureTypes.KNIGHT;
   }
-  canMove(square: Square): boolean {
-    if (!super.canMove(square)) return false;
-    const dx = Math.abs(square.x - this.square.x);
-    const dy = Math.abs(square.y - this.square.y);
 
+  canAttack(target: Square): boolean {
+    const dx = Math.abs(target.x - this.square.x);
+    const dy = Math.abs(target.y - this.square.y);
     return (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+  }
+
+  canMove(target: Square): boolean {
+    if (!super.canMove(target)) return false;
+    if (this.canAttack(target)) return true;
+    return false;
   }
 }

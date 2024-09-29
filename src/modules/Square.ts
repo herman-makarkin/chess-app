@@ -1,5 +1,5 @@
 import Board from "./Board";
-import { Figure } from "./figures/Figure";
+import { Figure, FigureTypes } from "./figures/Figure";
 import { Colors } from "./Colors";
 
 export class Square {
@@ -38,6 +38,7 @@ export class Square {
     }
     return true;
   }
+
   isEmptyHorizontal(target: Square): boolean {
     if (this.y !== target.y) {
       return false;
@@ -51,6 +52,7 @@ export class Square {
     }
     return true;
   }
+
   isEmptyDiagonal(target: Square): boolean {
     const absX = Math.abs(this.x - target.x);
     const absY = Math.abs(this.y - target.y);
@@ -73,6 +75,17 @@ export class Square {
     this.figure = figure;
     this.figure.square = this;
   }
+
+  public isSafe(friendlyColor: Colors): boolean {
+    const enemyPieces = friendlyColor === Colors.WHITE ? this.board.blackPieces : this.board.whitePieces;
+    for (const piece of enemyPieces) {
+      if (piece.name != FigureTypes.KING && piece.canAttack(this)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   moveFigure(target: Square): void {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure.moveFigure(target);

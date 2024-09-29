@@ -15,6 +15,7 @@ export enum FigureTypes {
 
 export class Figure {
   lastMoved: number;
+  isFirstMove: boolean;
   color: Colors;
   logo: typeof logo | null;
   square: Square;
@@ -22,6 +23,7 @@ export class Figure {
   id: number;
 
   constructor(color: Colors, square: Square) {
+    this.isFirstMove = true;
     this.lastMoved = 0;
     this.color = color;
     this.square = square;
@@ -29,6 +31,10 @@ export class Figure {
     this.logo = null;
     this.name = FigureTypes.FIGURE;
     this.id = Math.random();
+  }
+
+  canAttack(target: Square): boolean {
+    return false;
   }
 
   canMove(square: Square): boolean {
@@ -39,6 +45,7 @@ export class Figure {
 
   moveFigure(target: Square): void {
     this.lastMoved = this.square.board.moveCount;
+    this.isFirstMove = false;
     this.square.board.moveCount++;
   }
 }

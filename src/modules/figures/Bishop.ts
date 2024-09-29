@@ -11,9 +11,14 @@ export class Bishop extends Figure {
     this.name = FigureTypes.BISHOP;
   }
 
+  canAttack(square: Square): boolean {
+    if (this.square.isEmptyDiagonal(square)) return true;
+    return false;
+  }
+
   canMove(square: Square): boolean {
     if (!super.canMove(square)) return false;
-    if (this.square.isEmptyDiagonal(square)) return true;
+    if (this.canAttack(square)) return true;
     return false;
   }
 }

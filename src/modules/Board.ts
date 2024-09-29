@@ -1,6 +1,6 @@
 import { Square } from "./Square";
 import { Colors } from "./Colors";
-//import { Figure, FigureTypes } from "./figures/Figure";
+import { Figure } from "./figures/Figure";
 import { Queen } from "./figures/Queen";
 import { King } from "./figures/King";
 import { Rook } from "./figures/Rook";
@@ -10,6 +10,8 @@ import { Bishop } from "./figures/Bishop";
 
 class Board {
   squares: Square[][] = [];
+  blackPieces: Figure[] = [];
+  whitePieces: Figure[] = [];
   defaultFEN: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   moveCount: number = 0;
 
@@ -28,18 +30,16 @@ class Board {
   }
 
   public hightlightSquares(selectedSquare: Square | null) {
-    for (let i = 0; i < this.squares.length; i++) {
-      const row = this.squares[i];
-      for (let j = 0; j < row.length; j++) {
-        const target = row[j];
+    for (let row of this.squares)
+      for (let target of row)
         target.available = !!selectedSquare?.figure?.canMove(target);
-      }
-    }
   }
 
   public getCopyBoard(): Board {
     const newBoard = new Board();
     newBoard.squares = this.squares;
+    newBoard.blackPieces = this.blackPieces;
+    newBoard.whitePieces = this.whitePieces;
     return newBoard;
   }
 
@@ -107,40 +107,40 @@ class Board {
 
   private addPawns() {
     for (let i = 0; i < 8; i++) {
-      new Pawn(Colors.BLACK, this.getSquare(i, 1));
-      new Pawn(Colors.WHITE, this.getSquare(i, 6));
+      this.blackPieces.push(new Pawn(Colors.BLACK, this.getSquare(i, 1)));
+      this.whitePieces.push(new Pawn(Colors.WHITE, this.getSquare(i, 6)));
     }
   }
 
   private addKings() {
-    new King(Colors.BLACK, this.getSquare(4, 0));
-    new King(Colors.WHITE, this.getSquare(4, 7));
+    this.blackPieces.push(new King(Colors.BLACK, this.getSquare(4, 0)));
+    this.whitePieces.push(new King(Colors.WHITE, this.getSquare(4, 7)));
   }
 
   private addQueens() {
-    new Queen(Colors.BLACK, this.getSquare(3, 0));
-    new Queen(Colors.WHITE, this.getSquare(3, 7));
+    this.blackPieces.push(new Queen(Colors.BLACK, this.getSquare(3, 0)));
+    this.whitePieces.push(new Queen(Colors.WHITE, this.getSquare(3, 7)));
   }
 
   private addRooks() {
-    new Rook(Colors.BLACK, this.getSquare(0, 0));
-    new Rook(Colors.BLACK, this.getSquare(7, 0));
-    new Rook(Colors.WHITE, this.getSquare(0, 7));
-    new Rook(Colors.WHITE, this.getSquare(7, 7));
+    this.blackPieces.push(new Rook(Colors.BLACK, this.getSquare(0, 0)));
+    this.blackPieces.push(new Rook(Colors.BLACK, this.getSquare(7, 0)));
+    this.whitePieces.push(new Rook(Colors.WHITE, this.getSquare(0, 7)));
+    this.whitePieces.push(new Rook(Colors.WHITE, this.getSquare(7, 7)));
   }
 
   private addBishops() {
-    new Bishop(Colors.BLACK, this.getSquare(2, 0));
-    new Bishop(Colors.BLACK, this.getSquare(5, 0));
-    new Bishop(Colors.WHITE, this.getSquare(2, 7));
-    new Bishop(Colors.WHITE, this.getSquare(5, 7));
+    this.blackPieces.push(new Bishop(Colors.BLACK, this.getSquare(2, 0)));
+    this.blackPieces.push(new Bishop(Colors.BLACK, this.getSquare(5, 0)));
+    this.whitePieces.push(new Bishop(Colors.WHITE, this.getSquare(2, 7)));
+    this.whitePieces.push(new Bishop(Colors.WHITE, this.getSquare(5, 7)));
   }
 
   private addKnights() {
-    new Knight(Colors.BLACK, this.getSquare(1, 0));
-    new Knight(Colors.BLACK, this.getSquare(6, 0));
-    new Knight(Colors.WHITE, this.getSquare(1, 7));
-    new Knight(Colors.WHITE, this.getSquare(6, 7));
+    this.blackPieces.push(new Knight(Colors.BLACK, this.getSquare(1, 0)));
+    this.blackPieces.push(new Knight(Colors.BLACK, this.getSquare(6, 0)));
+    this.whitePieces.push(new Knight(Colors.WHITE, this.getSquare(1, 7)));
+    this.whitePieces.push(new Knight(Colors.WHITE, this.getSquare(6, 7)));
   }
 
   public addPieces() {
