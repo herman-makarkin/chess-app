@@ -1,6 +1,6 @@
 import { Square } from "./Square";
 import { Colors } from "./Colors";
-import { Figure } from "./figures/Figure";
+import { Figure, FigureTypes } from "./figures/Figure";
 import { Queen } from "./figures/Queen";
 import { King } from "./figures/King";
 import { Rook } from "./figures/Rook";
@@ -14,6 +14,9 @@ class Board {
   whitePieces: Figure[] = [];
   defaultFEN: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   moveCount: number = 0;
+  whiteKing: King | null = null;
+  blackKing: King | null = null;
+  isCheck: boolean = false;
 
   public initSquares() {
     for (let i = 0; i < 8; i++) {
@@ -32,7 +35,7 @@ class Board {
   public hightlightSquares(selectedSquare: Square | null) {
     for (let row of this.squares)
       for (let target of row)
-        target.available = !!selectedSquare?.figure?.canMove(target);
+        target.available = !!selectedSquare?.figure?.isAbleToMove(target);
   }
 
   public getCopyBoard(): Board {
@@ -55,6 +58,34 @@ class Board {
     return y < this.squares.length && y >= 0 ? true : false;
   }
 
+  public try(fromSquare: Square, target: Square, king: King): boolean {
+
+    if (fromSquare.figure && fromSquare.figure.name === FigureTypes.KING) {
+      const tmp = king;
+      king.square.figure = null;
+      if (target.isSafe(king.color)) {
+        king.square.figure = tmp;
+        return true;
+      }
+
+      king.square.figure = tmp;
+      return false;
+    }
+
+    const tmp = target.figure;
+    target.figure = fromSquare.figure;
+    fromSquare.figure = null;
+    if (king && king.square.isSafe(king.color)) {
+      console.log(king)
+      fromSquare.figure = target.figure;
+      target.figure = tmp;
+      return true;
+    }
+
+    fromSquare.figure = target.figure
+    target.figure = tmp;
+    return false;
+  }
   //   public setBoard(fen: string) {
   //     if (fen === "") {
   //       fen = this.defaultFEN;
@@ -113,8 +144,10 @@ class Board {
   }
 
   private addKings() {
-    this.blackPieces.push(new King(Colors.BLACK, this.getSquare(4, 0)));
-    this.whitePieces.push(new King(Colors.WHITE, this.getSquare(4, 7)));
+    this.blackKing = new King(Colors.BLACK, this.getSquare(4, 0));
+    this.blackPieces.push(this.blackKing);
+    this.whiteKing = new King(Colors.WHITE, this.getSquare(4, 7));
+    this.whitePieces.push(this.whiteKing);
   }
 
   private addQueens() {

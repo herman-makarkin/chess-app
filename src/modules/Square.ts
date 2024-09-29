@@ -79,7 +79,7 @@ export class Square {
   public isSafe(friendlyColor: Colors): boolean {
     const enemyPieces = friendlyColor === Colors.WHITE ? this.board.blackPieces : this.board.whitePieces;
     for (const piece of enemyPieces) {
-      if (piece.name != FigureTypes.KING && piece.canAttack(this)) {
+      if (piece.canAttack(this)) {
         return false;
       }
     }
@@ -87,7 +87,7 @@ export class Square {
   }
 
   moveFigure(target: Square): void {
-    if (this.figure && this.figure?.canMove(target)) {
+    if (this.figure && this.figure.isAbleToMove(target)) {
       this.figure.moveFigure(target);
       target.setFigure(this.figure);
       this.figure = null;

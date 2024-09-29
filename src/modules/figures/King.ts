@@ -10,7 +10,6 @@ export class King extends Figure {
 
   constructor(color: Colors, square: Square) {
     super(color, square);
-    this.isFirstMove = true;
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
     this.name = FigureTypes.KING;
   }
@@ -18,7 +17,7 @@ export class King extends Figure {
   canAttack(target: Square): boolean {
     const dx = Math.abs(this.square.x - target.x);
     const dy = Math.abs(this.square.y - target.y);
-    return (dx <= 1 && dy <= 1 && target.isSafe(this.color))
+    return (dx <= 1 && dy <= 1)
   }
 
   canMove(target: Square): boolean {
@@ -99,5 +98,6 @@ export class King extends Figure {
       }
     }
     this.isShortCastling = false;
+    this.isLongCastling = false;
   }
 }

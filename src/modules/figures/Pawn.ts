@@ -29,6 +29,7 @@ export class Pawn extends Figure {
     if ((target.y === this.square.y + this.direction ||
       (this.isFirstMove && target.y === this.square.y + firstMoveDirection)) &&
       target.x === this.square.x &&
+      this.square.isEmptyVertical(target) &&
       this.square.board.getSquare(target.x, target.y).isEmpty()
     ) {
       return true;
@@ -64,6 +65,13 @@ export class Pawn extends Figure {
 
     return false;
   }
+  /*
+    canMove(target: Square): boolean {
+      return (this.canGo(target) && this.square.board.try(this.square, target));
+    }
+    */
+
+
 
   moveFigure(target: Square): void {
     super.moveFigure(target);

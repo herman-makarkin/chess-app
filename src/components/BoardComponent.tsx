@@ -23,7 +23,7 @@ const BoardComponent: FC<BoardProps> = ({
     if (
       selectedSquare &&
       selectedSquare !== square &&
-      selectedSquare.figure?.canMove(square)
+      selectedSquare.figure?.isAbleToMove(square)
     ) {
       selectedSquare.moveFigure(square);
       switchPlayer();
