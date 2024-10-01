@@ -17,6 +17,7 @@ class Board {
   whiteKing: King | null = null;
   blackKing: King | null = null;
   isCheck: boolean = false;
+  Checkmate: boolean = false;
 
   public initSquares() {
     for (let i = 0; i < 8; i++) {
@@ -43,7 +44,42 @@ class Board {
     newBoard.squares = this.squares;
     newBoard.blackPieces = this.blackPieces;
     newBoard.whitePieces = this.whitePieces;
+    newBoard.moveCount = this.moveCount;
+    newBoard.whiteKing = this.whiteKing;
+    newBoard.blackKing = this.blackKing;
+    newBoard.isKingChecked();
     return newBoard;
+  }
+
+  public isCheckmate(): boolean {
+    const king = this.moveCount % 2 === 0 ? this.whiteKing : this.blackKing;
+    const friendlyPieces = this.moveCount % 2 === 0 ? this.whitePieces : this.blackPieces;
+    for (let piece of friendlyPieces) {
+      if (king && !this.tryAll(piece, king)) {
+        return true
+      }
+    }
+    return false;
+  }
+
+  public tryAll(piece: Figure, king: King): boolean {
+    for (let row of this.squares) {
+      for (let target of row) {
+        if (this.try(piece.square, target, king)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public isKingChecked() {
+    const king = this.moveCount % 2 === 0 ? this.whiteKing : this.blackKing;
+    if (king && !(king.square.isSafe(king.color))) {
+      return true;
+    }
+
+    return false;
   }
 
   public getSquare(x: number, y: number) {
@@ -76,7 +112,6 @@ class Board {
     target.figure = fromSquare.figure;
     fromSquare.figure = null;
     if (king && king.square.isSafe(king.color)) {
-      console.log(king)
       fromSquare.figure = target.figure;
       target.figure = tmp;
       return true;

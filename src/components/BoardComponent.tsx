@@ -2,13 +2,16 @@ import { FC, Fragment, useState, useEffect } from "react";
 import { Square } from "../modules/Square";
 import Board from "../modules/Board";
 import SquareComponent from "./SquareComponent";
+import MenuComponent from "./MenuComponent";
 import Player from "../modules/Player";
+import { on } from "events";
 
 interface BoardProps {
   board: Board;
   setBoard: (board: Board) => void;
   currentPlayer: Player | null;
   switchPlayer: () => void;
+  restart: () => void;
 }
 
 const BoardComponent: FC<BoardProps> = ({
@@ -16,8 +19,14 @@ const BoardComponent: FC<BoardProps> = ({
   setBoard,
   currentPlayer,
   switchPlayer,
+  restart,
 }) => {
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
+
+  let checkmate = false;
+  if (board.isKingChecked()) {
+    checkmate = board.isCheckmate()
+  }
 
   function click(square: Square) {
     if (
@@ -50,6 +59,7 @@ const BoardComponent: FC<BoardProps> = ({
 
   return (
     <div>
+      <MenuComponent theEnd={checkmate} color={currentPlayer ? currentPlayer.color : null} restart={restart} />
       <h3>Current Player: {currentPlayer?.color}</h3>
       <div className="board">
         {board.squares.map((row, i: number) => (

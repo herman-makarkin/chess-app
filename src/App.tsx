@@ -34,6 +34,7 @@ function App() {
         setBoard={setBoard}
         currentPlayer={currentPlayer}
         switchPlayer={switchPlayer}
+        restart={restart}
       />
     </div>
   );
