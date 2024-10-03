@@ -24,7 +24,7 @@ function App() {
 
   function switchPlayer() {
     setCurrentPlayer(
-      currentPlayer?.color !== Colors.WHITE ? whitePlayer : blackPlayer
+      currentPlayer?.color !== Colors.WHITE ? whitePlayer : blackPlayer,
     );
   }
   return (

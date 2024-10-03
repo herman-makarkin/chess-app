@@ -1,10 +1,11 @@
 :root {
   --square-width: 100px;
   --square-height: 100px;
+  --piece-size: 80px;
   --black: #523d3c;
   --white: #c6a28c;
   --piece-size: 70px;
-  --available-size: 12px;
+  --available-size: 22px;
 }
 
 .App {
@@ -30,8 +31,8 @@
 }
 
 .square img {
-  width: var(--piece-size);
-  height: var(--piece-size);
+  max-width: var(--piece-size);
+  max-height: var(--piece-size);
 }
 
 .black {
@@ -49,5 +50,34 @@
 .available {
   width: var(--available-size);
   height: var(--available-size);
-  background-color: green;
+  background-color: black;
+  opacity: .6;
+  border-radius: 50%;
+}
+
+.chess {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .6);
+  color: white;
+  font-size: 24px;
+}
+
+
+@media (max-height: 1000px) {
+  :root {
+    --square-width: 60px;
+    --square-height: 60px;
+    --piece-size: 50px;
+  }
 }

@@ -10,7 +10,7 @@ interface MenuProps {
 const SquareComponent: FC<MenuProps> = ({ theEnd, color, restart }) => {
   if (theEnd) {
     return (
-      <div>
+      <div className="menu">
         <h1>{color === Colors.WHITE ? Colors.BLACK : Colors.WHITE} won!</h1>
         <button onClick={restart}>Restart</button>
       </div>

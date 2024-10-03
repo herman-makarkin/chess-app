@@ -44,15 +44,18 @@ export class Figure {
   }
 
   isAbleToMove(target: Square): boolean {
-    const king = this.color === Colors.WHITE ? this.square.board.whiteKing : this.square.board.blackKing
-    if (king)
-      return (this.canMove(target) && this.square.board.try(this.square, target, king))
-    return false
+    const king = this.color === Colors.WHITE
+      ? this.square.board.whiteKing
+      : this.square.board.blackKing;
+    if (king) {
+      return (this.canMove(target) &&
+        this.square.board.try(this.square, target, king));
+    }
+    return false;
   }
 
   moveFigure(target: Square): void {
     this.lastMoved = this.square.board.moveCount;
     this.isFirstMove = false;
-    this.square.board.moveCount++;
   }
 }

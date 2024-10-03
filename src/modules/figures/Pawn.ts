@@ -18,65 +18,78 @@ export class Pawn extends Figure {
   }
 
   canAttack(target: Square): boolean {
-    return ((target.y === this.square.y + this.direction &&
-      (target.x === this.square.x + 1 || target.x === this.square.x - 1)))
+    return (target.y === this.square.y + this.direction &&
+      (target.x === this.square.x + 1 || target.x === this.square.x - 1));
   }
 
   canMove(target: Square): boolean {
     if (!super.canMove(target)) return false;
     const firstMoveDirection = this.color === Colors.BLACK ? 2 : -2;
 
-    if ((target.y === this.square.y + this.direction ||
-      (this.isFirstMove && target.y === this.square.y + firstMoveDirection)) &&
+    if (
+      (target.y === this.square.y + this.direction ||
+        (this.isFirstMove &&
+          target.y === this.square.y + firstMoveDirection)) &&
       target.x === this.square.x &&
       this.square.isEmptyVertical(target) &&
       this.square.board.getSquare(target.x, target.y).isEmpty()
     ) {
       return true;
     }
-
+    //FIX THIS MESS!!!!
     if (this.canAttack(target) && this.square.isEnemy(target)) return true;
 
     if (this.square.board.isXProper(this.square.x - 1)) {
-      const leftNeighbor = this.square.board.getSquare(this.square.x - 1, this.square.y)
-      if (this.square.isEnemy(leftNeighbor)
-        && target.y === this.square.y + this.direction
-        && target.x === this.square.x - 1
-        && leftNeighbor.figure != null
-        && leftNeighbor.figure.name === FigureTypes.PAWN
-        && this.square.board.moveCount - leftNeighbor.figure.lastMoved === 1) {
-        this.enPassant = true
-        return true
+      const leftNeighbor = this.square.board.getSquare(
+        this.square.x - 1,
+        this.square.y,
+      );
+      if (
+        this.square.isEnemy(leftNeighbor) &&
+        target.y === this.square.y + this.direction &&
+        target.x === this.square.x - 1 &&
+        leftNeighbor.figure != null &&
+        leftNeighbor.figure.name === FigureTypes.PAWN &&
+        this.square.board.moveCount - leftNeighbor.figure.lastMoved === 1
+      ) {
+        this.enPassant = true;
+        return true;
       }
     }
 
     if (this.square.board.isXProper(this.square.x + 1)) {
-      const rightNeighbor = this.square.board.getSquare(this.square.x + 1, this.square.y)
-      if (this.square.isEnemy(rightNeighbor)
-        && target.y === this.square.y + this.direction
-        && target.x === this.square.x + 1
-        && rightNeighbor.figure != null
-        && rightNeighbor.figure.name === FigureTypes.PAWN
-        && this.square.board.moveCount - rightNeighbor.figure.lastMoved === 1) {
-        this.enPassant = true
-        return true
+      const rightNeighbor = this.square.board.getSquare(
+        this.square.x + 1,
+        this.square.y,
+      );
+      if (
+        this.square.isEnemy(rightNeighbor) &&
+        target.y === this.square.y + this.direction &&
+        target.x === this.square.x + 1 &&
+        rightNeighbor.figure != null &&
+        rightNeighbor.figure.name === FigureTypes.PAWN &&
+        this.square.board.moveCount - rightNeighbor.figure.lastMoved === 1
+      ) {
+        this.enPassant = true;
+        return true;
       }
     }
 
     return false;
   }
-  /*
-    canMove(target: Square): boolean {
-      return (this.canGo(target) && this.square.board.try(this.square, target));
-    }
-    */
-
-
 
   moveFigure(target: Square): void {
     super.moveFigure(target);
     if (this.enPassant) {
-      this.square.board.squares[this.color === Colors.WHITE ? target.y + 1 : target.y - 1][target.x].figure = null
+      const piece = this.square.board.getSquare(
+        target.x,
+        this.color === Colors.WHITE ? target.y + 1 : target.y - 1,
+      ).figure;
+      if (piece) {
+        this.square.board.removePiece(
+          piece,
+        );
+      }
     }
     this.enPassant = false;
   }

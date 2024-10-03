@@ -34,38 +34,42 @@ class Board {
   }
 
   public hightlightSquares(selectedSquare: Square | null) {
-    for (let row of this.squares)
-      for (let target of row)
+    for (const row of this.squares) {
+      for (const target of row) {
         target.available = !!selectedSquare?.figure?.isAbleToMove(target);
+      }
+    }
   }
 
   public getCopyBoard(): Board {
     const newBoard = new Board();
     newBoard.squares = this.squares;
+    newBoard.squares.forEach((x) => x.forEach((y) => y.board = newBoard));
     newBoard.blackPieces = this.blackPieces;
     newBoard.whitePieces = this.whitePieces;
-    newBoard.moveCount = this.moveCount;
     newBoard.whiteKing = this.whiteKing;
     newBoard.blackKing = this.blackKing;
-    newBoard.isKingChecked();
+    newBoard.moveCount = this.moveCount;
     return newBoard;
   }
 
   public isCheckmate(): boolean {
     const king = this.moveCount % 2 === 0 ? this.whiteKing : this.blackKing;
-    const friendlyPieces = this.moveCount % 2 === 0 ? this.whitePieces : this.blackPieces;
-    for (let piece of friendlyPieces) {
+    const friendlyPieces = this.moveCount % 2 === 0
+      ? this.whitePieces
+      : this.blackPieces;
+    for (const piece of friendlyPieces) {
       if (king && !this.tryAll(piece, king)) {
-        return true
+        return true;
       }
     }
     return false;
   }
 
   public tryAll(piece: Figure, king: King): boolean {
-    for (let row of this.squares) {
-      for (let target of row) {
-        if (this.try(piece.square, target, king)) {
+    for (const row of this.squares) {
+      for (const target of row) {
+        if (piece.isAbleToMove(target)) {
           return true;
         }
       }
@@ -95,31 +99,81 @@ class Board {
   }
 
   public try(fromSquare: Square, target: Square, king: King): boolean {
-
     if (fromSquare.figure && fromSquare.figure.name === FigureTypes.KING) {
       const tmp = king;
+      const tmp2 = target.figure ? target.figure : null;
       king.square.figure = null;
+      if (target.figure) {
+        this.removePiece(target.figure);
+      }
+      target.figure = king;
       if (target.isSafe(king.color)) {
         king.square.figure = tmp;
+        target.figure = tmp2;
+        if (tmp2) {
+          this.addPiece(tmp2);
+        }
         return true;
       }
-
-      king.square.figure = tmp;
+      king.square.figure = king;
+      target.figure = tmp2;
+      if (tmp2) {
+        this.addPiece(tmp2);
+      }
       return false;
     }
 
     const tmp = target.figure;
+    if (target.figure) {
+      this.removePiece(target.figure);
+    }
     target.figure = fromSquare.figure;
     fromSquare.figure = null;
     if (king && king.square.isSafe(king.color)) {
       fromSquare.figure = target.figure;
       target.figure = tmp;
+      if (tmp) {
+        this.addPiece(tmp);
+      }
       return true;
     }
-
-    fromSquare.figure = target.figure
+    fromSquare.figure = target.figure;
     target.figure = tmp;
+    if (tmp) {
+      this.addPiece(tmp);
+    }
     return false;
+  }
+
+  public isAreaSafe(
+    fromY: number,
+    toY: number,
+    fromX: number,
+    toX: number,
+  ): boolean {
+    for (let i = Math.min(fromY, toY); i <= Math.max(fromY, toY); i++) {
+      for (let j = Math.min(fromX, toX); j <= Math.max(fromX, toX); j++) {
+        if (!this.squares[i][j].isSafe()) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public removePiece(piece: Figure) {
+    const enemyPieces = piece.color === Colors.WHITE
+      ? this.whitePieces
+      : this.blackPieces;
+    enemyPieces.splice(enemyPieces.indexOf(piece), 1);
+    piece.square.figure = null;
+  }
+
+  public addPiece(piece: Figure) {
+    const friendlyPieces = piece.color === Colors.WHITE
+      ? this.whitePieces
+      : this.blackPieces;
+    friendlyPieces.push(piece);
   }
   //   public setBoard(fen: string) {
   //     if (fen === "") {
@@ -220,4 +274,5 @@ class Board {
     this.addKnights();
   }
 }
+
 export default Board;

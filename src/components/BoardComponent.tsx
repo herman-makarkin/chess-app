@@ -1,4 +1,4 @@
-import { FC, Fragment, useState, useEffect } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { Square } from "../modules/Square";
 import Board from "../modules/Board";
 import SquareComponent from "./SquareComponent";
@@ -22,10 +22,12 @@ const BoardComponent: FC<BoardProps> = ({
   restart,
 }) => {
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
+  //const [square, setSquare] = useState(new Square());
 
   let checkmate = false;
   if (board.isKingChecked()) {
-    checkmate = board.isCheckmate()
+    checkmate = board.isCheckmate();
+    console.log(checkmate, "checkmate");
   }
 
   function click(square: Square) {
@@ -36,6 +38,7 @@ const BoardComponent: FC<BoardProps> = ({
     ) {
       selectedSquare.moveFigure(square);
       switchPlayer();
+      board.moveCount++;
       setSelectedSquare(null);
       updateBoard();
     } else if (square.figure?.color === currentPlayer?.color) {
@@ -58,8 +61,12 @@ const BoardComponent: FC<BoardProps> = ({
   }
 
   return (
-    <div>
-      <MenuComponent theEnd={checkmate} color={currentPlayer ? currentPlayer.color : null} restart={restart} />
+    <div className="chess">
+      <MenuComponent
+        theEnd={checkmate}
+        color={currentPlayer ? currentPlayer.color : null}
+        restart={restart}
+      />
       <h3>Current Player: {currentPlayer?.color}</h3>
       <div className="board">
         {board.squares.map((row, i: number) => (
@@ -69,10 +76,8 @@ const BoardComponent: FC<BoardProps> = ({
                 click={click}
                 square={square}
                 key={square.id}
-                selected={
-                  square.x === selectedSquare?.x &&
-                  square.y === selectedSquare?.y
-                }
+                selected={square.x === selectedSquare?.x &&
+                  square.y === selectedSquare?.y}
               />
             ))}
           </Fragment>
