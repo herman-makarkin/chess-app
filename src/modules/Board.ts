@@ -50,6 +50,7 @@ class Board {
     newBoard.whiteKing = this.whiteKing;
     newBoard.blackKing = this.blackKing;
     newBoard.moveCount = this.moveCount;
+    newBoard.Checkmate = this.Checkmate;
     return newBoard;
   }
 

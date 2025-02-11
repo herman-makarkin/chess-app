@@ -81,7 +81,6 @@ export class Square {
       ? Colors.BLACK
       : Colors.WHITE,
   ): boolean {
-    console.log(friendlyColor, this.board.moveCount);
     const enemyPieces = friendlyColor === Colors.WHITE
       ? this.board.blackPieces
       : this.board.whitePieces;

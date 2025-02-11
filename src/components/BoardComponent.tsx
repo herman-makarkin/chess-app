@@ -12,6 +12,8 @@ interface BoardProps {
   currentPlayer: Player | null;
   switchPlayer: () => void;
   restart: () => void;
+  setCheckmate: (value: boolean) => void;
+  isCheckmate: boolean;
 }
 
 const BoardComponent: FC<BoardProps> = ({
@@ -20,14 +22,14 @@ const BoardComponent: FC<BoardProps> = ({
   currentPlayer,
   switchPlayer,
   restart,
+  setCheckmate,
+  isCheckmate,
 }) => {
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
-  //const [square, setSquare] = useState(new Square());
+  console.log(isCheckmate);
 
-  let checkmate = false;
-  if (board.isKingChecked()) {
-    checkmate = board.isCheckmate();
-    console.log(checkmate, "checkmate");
+  if (board.isKingChecked() && board.isCheckmate()) {
+    setCheckmate(true);
   }
 
   function click(square: Square) {
@@ -63,11 +65,10 @@ const BoardComponent: FC<BoardProps> = ({
   return (
     <div className="chess">
       <MenuComponent
-        theEnd={checkmate}
+        theEnd={isCheckmate}
         color={currentPlayer ? currentPlayer.color : null}
         restart={restart}
       />
-      <h3>Current Player: {currentPlayer?.color}</h3>
       <div className="board">
         {board.squares.map((row, i: number) => (
           <Fragment key={i}>
