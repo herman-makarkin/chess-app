@@ -20,13 +20,13 @@ const SidebarSide: FC<SidebarSideProps> = (
   if (timer1Up && timer2Up) {
     return (
       <div className={className}>
-        <TimerComponent
-          timeout={timeout}
-          forColor={forColor}
-          currentPlayer={currentPlayer}
-          time={time}
-          setTimeUp={forColor === Colors.BLACK ? setTimer1Up : setTimer2Up}
-        />
+        {/* <TimerComponent */}
+        {/*   timeout={timeout} */}
+        {/*   forColor={forColor} */}
+        {/*   currentPlayer={currentPlayer} */}
+        {/*   time={time} */}
+        {/*   setTimeUp={forColor === Colors.BLACK ? setTimer1Up : setTimer2Up} */}
+        {/* /> */}
       </div>
     );
   }

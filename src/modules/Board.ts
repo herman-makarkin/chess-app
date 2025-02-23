@@ -60,11 +60,11 @@ class Board {
       ? this.whitePieces
       : this.blackPieces;
     for (const piece of friendlyPieces) {
-      if (king && !this.tryAll(piece, king)) {
-        return true;
+      if (king && this.tryAll(piece, king)) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   public tryAll(piece: Figure, king: King): boolean {
