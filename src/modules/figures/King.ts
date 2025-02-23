@@ -69,27 +69,29 @@ export class King extends Figure {
     return false;
   }
 
+  moveRook(Rx: number, Ry: number, LRx: number, LRy: number, target: Square) {
+    const rookSquare = this.square.board.getSquare(Rx, Ry);
+    const laterRookSquare = this.square.board.getSquare(LRx, LRy);
+    if (rookSquare.figure) {
+      rookSquare.figure.moveFigure(target);
+      laterRookSquare.setFigure(rookSquare.figure);
+    }
+    rookSquare.figure = null;
+  }
+
   moveFigure(target: Square): void {
     super.moveFigure(target);
     if (this.color === Colors.WHITE) {
-      if (this.isShortCastling) {
-        const rookSquare = this.square.board.getSquare(7, 7);
-        this.square.board.getSquare(5, 7).figure = rookSquare.figure;
-        rookSquare.figure = null;
+      if (this.isShortCastling, target.x > 5) {
+        this.moveRook(7, 7, 5, 7, target)
       } else if (this.isLongCastling) {
-        const rookSquare = this.square.board.getSquare(0, 7);
-        this.square.board.getSquare(3, 7).figure = rookSquare.figure;
-        rookSquare.figure = null;
+        this.moveRook(0, 7, 3, 7, target)
       }
     } else if (this.color === Colors.BLACK) {
-      if (this.isShortCastling) {
-        const rookSquare = this.square.board.getSquare(7, 0);
-        this.square.board.getSquare(5, 0).figure = rookSquare.figure;
-        rookSquare.figure = null;
+      if (this.isShortCastling, target.x > 5) {
+        this.moveRook(7, 0, 5, 0, target)
       } else if (this.isLongCastling) {
-        const rookSquare = this.square.board.getSquare(0, 0);
-        this.square.board.getSquare(3, 0).figure = rookSquare.figure;
-        rookSquare.figure = null;
+        this.moveRook(0, 0, 3, 0, target)
       }
     }
     this.isShortCastling = false;
