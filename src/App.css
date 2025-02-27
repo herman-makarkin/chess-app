@@ -118,7 +118,8 @@
   width: 100%;
   height: 50px;
   align-items: center;
-  background-color: #262421;
+  /*background-color: #262421;*/
+  background-color: gray;
   color: white;
   font-size: 18px;
   display: flex;
@@ -180,15 +181,19 @@
   }
 }
 
+.lostPieces h3 {
+  margin: 0;
+}
 .lost {
-  padding-top: 40px;
+  /*padding-top: 40px;*/
+  /*padding-bottom: 40px;*/
   padding-left: 8px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .lostPiece img {
-  margin-top: 18px;
-  max-width: 30px;
-  max-height: 30px;
+  /*margin-top: 12px;*/
+  max-width: 20px;
+  max-height: 20px;
 }

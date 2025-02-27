@@ -8,13 +8,15 @@ interface LostPiecesProps {
 
 const LostPieces: FC<LostPiecesProps> = ({ title, pieces }) => {
   return (
-    <div className='lost'>
+    <div className="lostPieces">
       <h3>{title}</h3>
-      {pieces.map(piece => (
-        <div key={piece.id} className="lostPiece">
-          {piece.logo && <img src={piece.logo} alt={piece.name} />}
-        </div>
-      ))}
+      <div className='lost'>
+        {pieces.map(piece => (
+          <div key={piece.id} className="lostPiece">
+            {piece.logo && <img src={piece.logo} alt={piece.name} />}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

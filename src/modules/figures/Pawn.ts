@@ -86,6 +86,7 @@ export class Pawn extends Figure {
         this.color === Colors.WHITE ? target.y + 1 : target.y - 1,
       ).figure;
       if (piece) {
+        this.square.addLostPiece(piece);
         this.square.board.removePiece(
           piece,
         );
