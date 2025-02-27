@@ -92,9 +92,16 @@ export class Square {
     return true;
   }
 
+  addLostPiece(piece: Figure) {
+    piece.color === Colors.BLACK
+      ? this.board.lostBlackPieces.push(piece)
+      : this.board.lostWhitePieces.push(piece);
+  }
+
   moveFigure(target: Square): void {
     if (this.figure && this.figure.isAbleToMove(target)) {
       if (target.figure) {
+        this.addLostPiece(target.figure);
         this.board.removePiece(target.figure);
       }
       this.figure.moveFigure(target);

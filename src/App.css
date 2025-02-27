@@ -179,3 +179,16 @@
     text-align: right;
   }
 }
+
+.lost {
+  padding-top: 40px;
+  padding-left: 8px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.lostPiece img {
+  margin-top: 18px;
+  max-width: 30px;
+  max-height: 30px;
+}

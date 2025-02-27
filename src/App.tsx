@@ -51,6 +51,7 @@ function App() {
         timeout={setCheckmate}
         currentPlayer={currentPlayer}
         time={time}
+        board={board}
       />
     </div>
   );

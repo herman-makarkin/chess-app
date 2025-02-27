@@ -12,6 +12,8 @@ class Board {
   squares: Square[][] = [];
   blackPieces: Figure[] = [];
   whitePieces: Figure[] = [];
+  lostBlackPieces: Figure[] = [];
+  lostWhitePieces: Figure[] = [];
   defaultFEN: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   moveCount: number = 0;
   whiteKing: King | null = null;
@@ -47,6 +49,8 @@ class Board {
     newBoard.squares.forEach((x) => x.forEach((y) => y.board = newBoard));
     newBoard.blackPieces = this.blackPieces;
     newBoard.whitePieces = this.whitePieces;
+    newBoard.lostWhitePieces = this.lostWhitePieces;
+    newBoard.lostBlackPieces = this.lostBlackPieces;
     newBoard.whiteKing = this.whiteKing;
     newBoard.blackKing = this.blackKing;
     newBoard.moveCount = this.moveCount;
